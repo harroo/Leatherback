@@ -48,16 +48,24 @@ public class InventorySlot :
         objectDisplayObject.AddComponent<MeshRenderer>().material =
             InventoryPrefix.instance.objectDisplayMaterial;
 
-        GameObject textObject = new GameObject("Text Object");
-        textObject.transform.SetParent(transform);
-        textObject.transform.localScale = new Vector3(1, 1, 1);
-        amountDisplay = textObject.AddComponent<Text>();
+        GameObject amountDisplayObject = new GameObject("Amount Display");
+        amountDisplayObject.transform.SetParent(transform);
+        amountDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        amountDisplay = amountDisplayObject.AddComponent<Text>();
         amountDisplay.font = InventoryPrefix.instance.font;
         amountDisplay.color = InventoryPrefix.instance.fontColor;
         amountDisplay.fontSize = manager.inventory.fontSize;
         amountDisplay.alignment = manager.inventory.fontAlignment;
-        textObject.GetComponent<RectTransform>().sizeDelta = new Vector2(
+        amountDisplayObject.GetComponent<RectTransform>().sizeDelta = new Vector2(
             manager.inventory.slotSize.x, manager.inventory.slotSize.y);
+
+        GameObject percentDisplayObject = new GameObject("Percent Display");
+        percentDisplayObject.transform.SetParent(transform);
+        percentDisplayObject.transform.localScale = new Vector3(.9f, .9f, .9f);
+        percentDisplay = percentDisplayObject.AddComponent<Image>();
+        percentTransform = percentDisplay.GetComponent<RectTransform>();
+        percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-1);
+        percentTransform.sizeDelta = new Vector2(manager.inventory.slotSize.x, 2);
     }
 
     public virtual Action onSlotClick => null;
@@ -89,6 +97,8 @@ public class InventorySlot :
     private RawImage textureDisplay;
     private Mesh objectDisplay;
     private Text amountDisplay;
+    private Image percentDisplay;
+    private RectTransform percentTransform;
 
     public InventoryObject data;
 
@@ -96,10 +106,21 @@ public class InventorySlot :
 
         ClearDisplay();
 
+        if (data == null) return;
+
         if (data.isTexture) textureDisplay.texture = data.GetTexture();
         else objectDisplay = data.GetMesh();
 
         amountDisplay.text = data.amount == 0 ? "" : data.amount.ToString();
+
+        percentDisplay.color = Color.Lerp(
+            InventoryPrefix.instance.zeroPercent, InventoryPrefix.instance.hundredPercent,
+            data.percent);
+
+        float left = (float)manager.inventory.slotSize.x * data.percent;
+        float right = Mathf.Abs(manager.inventory.slotSize.x - left / 2);
+        percentTransform.anchoredPosition = new Vector2(right, -manager.inventory.slotSize.y/2-1);
+        percentTransform.sizeDelta = new Vector2(left, 2);
     }
 
     public void ClearDisplay () {
@@ -107,5 +128,6 @@ public class InventorySlot :
         textureDisplay.color = Color.clear;
         objectDisplay.Clear();
         amountDisplay.text = "";
+        percentDisplay.color = Color.clear;
     }
 }

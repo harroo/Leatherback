@@ -35,4 +35,8 @@ public class InventoryPrefix : MonoBehaviour {
 
     [Space()]
     public Material objectDisplayMaterial;
+
+    [Space()]
+    public Color zeroPercent = Color.red;
+    public Color hundredPercent = Color.green;
 }

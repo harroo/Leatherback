@@ -9,6 +9,7 @@ public class InventoryObject {
 
     public bool isTexture;
     public int amount;
+    public float percent;
 
     public virtual Texture2D GetTexture () {
 
