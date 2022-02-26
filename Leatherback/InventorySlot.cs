@@ -12,20 +12,18 @@ public class InventorySlot :
 
     public Sprite idleImage, highlightedImage;
     public Color idleColor, highlightedColor;
+
     private Image displayImage;
+    private RectTransform _rectTransform;
 
     private InventoryManager manager;
 
-    private void SetManager (InventoryManager manager) {
+    private void Initialize (InventoryManager manager) {
 
         this.manager = manager;
-    }
-
-    private void Awake () {
 
         displayImage = GetComponent<Image>();
-    }
-    private void Start () {
+        _rectTransform = GetComponent<RectTransform>();
 
         idleImage = InventoryPrefix.instance.idleImage;
         idleColor = InventoryPrefix.instance.idleColor;
@@ -34,10 +32,36 @@ public class InventorySlot :
 
         displayImage.sprite = idleImage;
         displayImage.color = idleColor;
+
+        GameObject textureDisplayObject = new GameObject("Texture Display");
+        textureDisplayObject.transform.SetParent(transform);
+        textureDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        textureDisplay = textureDisplayObject.AddComponent<RawImage>();
+        textureDisplayObject.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            manager.inventory.textureSize.x, manager.inventory.textureSize.y);
+
+        objectDisplay = new Mesh();
+        GameObject objectDisplayObject = new GameObject("Object Display");
+        objectDisplayObject.transform.SetParent(transform);
+        objectDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        objectDisplayObject.AddComponent<MeshFilter>().mesh = objectDisplay;
+        objectDisplayObject.AddComponent<MeshRenderer>().material =
+            InventoryPrefix.instance.objectDisplayMaterial;
+
+        GameObject textObject = new GameObject("Text Object");
+        textObject.transform.SetParent(transform);
+        textObject.transform.localScale = new Vector3(1, 1, 1);
+        amountDisplay = textObject.AddComponent<Text>();
+        amountDisplay.font = InventoryPrefix.instance.font;
+        amountDisplay.color = InventoryPrefix.instance.fontColor;
+        amountDisplay.fontSize = manager.inventory.fontSize;
+        amountDisplay.alignment = manager.inventory.fontAlignment;
+        textObject.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            manager.inventory.slotSize.x, manager.inventory.slotSize.y);
     }
 
     public virtual Action onSlotClick => null;
-    
+
     public void OnPointerClick (PointerEventData e) {
 
         // Uncomment these lines to enable sounds, Reverb is required.
@@ -60,5 +84,28 @@ public class InventorySlot :
 
         displayImage.sprite = idleImage;
         displayImage.color = idleColor;
+    }
+
+    private RawImage textureDisplay;
+    private Mesh objectDisplay;
+    private Text amountDisplay;
+
+    public InventoryObject data;
+
+    public void Render () {
+
+        ClearDisplay();
+
+        if (data.isTexture) textureDisplay.texture = data.GetTexture();
+        else objectDisplay = data.GetMesh();
+
+        amountDisplay.text = data.amount == 0 ? "" : data.amount.ToString();
+    }
+
+    public void ClearDisplay () {
+
+        textureDisplay.color = Color.clear;
+        objectDisplay.Clear();
+        amountDisplay.text = "";
     }
 }

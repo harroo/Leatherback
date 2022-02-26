@@ -15,6 +15,14 @@ public class ExampleInventory : InventoryManager {
         //demensions of inventory grid
         gridSize = new Vector2(5, 4),
 
+        //slot texture display demensiosn
+        textureSize = new Vector2(30, 30),
+
+        //slot amount text info
+        fontSize = 10,
+        fontAlignment = TextAnchor.LowerRight,
+        //see: https://docs.unity3d.com/2019.1/Documentation/ScriptReference/TextAnchor.html
+
         //slot map
         slots = new char[] {
 

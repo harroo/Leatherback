@@ -13,6 +13,10 @@ public class InventoryManager : MonoBehaviour {
     public virtual void SetSlotTypes () {}
 
 
+    private List<InventorySlot> slots
+        = new List<InventorySlot>();
+
+
     private Dictionary<char, Type> slotTypes
         = new Dictionary<char, Type>();
 
@@ -60,12 +64,18 @@ public class InventoryManager : MonoBehaviour {
 
             if (slotKey == ' ') {
 
-                slot.AddComponent<Image>().color = new Color(0,0,0,0);
+                slot.AddComponent<Image>().color = Color.clear;
                 continue;
             }
 
             var behaviour = slot.AddComponent(slotTypes[slotKey]);
-            behaviour.SendMessage("SetManager", this);
+            behaviour.SendMessage("Initialize", this);
+            slots.Add((InventorySlot)behaviour);
+        }
+
+        foreach (var slot in slots) {
+
+            slot.ClearDisplay();
         }
     }
 
@@ -78,7 +88,10 @@ public class InventoryManager : MonoBehaviour {
 [Serializable]
 public class Inventory {
 
-    public Vector2 spacing, slotSize, gridSize;
+    public Vector2 spacing, slotSize, gridSize, textureSize;
+
+    public int fontSize;
+    public TextAnchor fontAlignment;
 
     public char[] slots;
 }

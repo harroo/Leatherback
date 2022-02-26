@@ -32,4 +32,7 @@ public class InventoryPrefix : MonoBehaviour {
 
     [Space()]
     public ushort defaultStackSize = 64;
+
+    [Space()]
+    public Material objectDisplayMaterial;
 }
