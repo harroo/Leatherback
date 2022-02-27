@@ -83,46 +83,79 @@ public class InventoryManager : MonoBehaviour {
 
     public virtual void OnSlotClicked (InventorySlot slot, bool leftClicked) {
 
-        //if slot is empty and selector is empty
         if (slot.isEmpty && selector.isEmpty) return;
-            //return
 
-        //if slot is empty and selector is full
+        if (leftClicked) LeftClickSlot(slot);
+        else RightClickSlot(slot);
+    }
+
+    private void LeftClickSlot (InventorySlot slot) {
+
         if (slot.isEmpty && selector.isFull) {
-            //mv selector into slot
+
             slot.data = selector.data;
             selector.data = null;
-            //return
             Render(); return;
         }
 
-        //if slot is full and selector is empty
         if (slot.isFull && selector.isEmpty) {
-            //mv slot to selector
+
             selector.data = slot.data;
             slot.data = null;
-            //return
             Render(); return;
         }
 
-        //if slot is full and selector is full
         if (slot.isFull && selector.isFull) {
-            //if they can merge
+
             if (slot.CanMerge(selector.data)) {
-                //merge
+
                 selector.data = slot.Merge(selector.data);
-                //return
                 Render(); return;
 
-            } else { //if they cant merge
-                //swap
+            } else {
+
                 InventoryObject cache = slot.data;
                 slot.data = selector.data;
                 selector.data = cache;
-                //return
                 Render(); return;
             }
         }
+    }
+
+    private void RightClickSlot (InventorySlot slot) {
+
+        //for now redirect to leftclick cos this aint worken
+        LeftClickSlot(slot);
+
+        // if (slot.isEmpty && selector.isFull) {
+        //
+        //     slot.data = selector.Clone(); slot.data.amount = 0;
+        //     selector.data = slot.TakeFrom(selector.data, 1);
+        //     Render(); return;
+        // }
+        //
+        // if (slot.isFull && selector.isEmpty) {
+        //
+        //     selector.data = slot.Clone(); selector.data.amount = 0;
+        //     slot.data = selector.TakeFrom(slot.data, slot.data.amount / 2);
+        //     Render(); return;
+        // }
+        //
+        // if (slot.isFull && selector.isFull) {
+        //
+        //     if (slot.CanMerge(selector.data)) {
+        //
+        //         selector.data = slot.TakeFrom(selector.data, 1);
+        //         Render(); return;
+        //
+        //     } else {
+        //
+        //         InventoryObject cache = slot.data;
+        //         slot.data = selector.data;
+        //         selector.data = cache;
+        //         Render(); return;
+        //     }
+        // }
     }
 
     public void Render () {

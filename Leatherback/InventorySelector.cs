@@ -86,6 +86,10 @@ public class InventorySelector : MonoBehaviour {
 
     public bool isEmpty => data == null;
     public bool isFull => data != null;
+    public bool CanMerge (InventoryObject iobj) => data.CanMerge(iobj);
+    public InventoryObject Merge (InventoryObject iobj) => data.Merge(iobj);
+    public InventoryObject Clone () => data.Clone();
+    public InventoryObject TakeFrom (InventoryObject iobj, int i) => data.TakeFrom(iobj, i);
 
     public void _Render () {
 

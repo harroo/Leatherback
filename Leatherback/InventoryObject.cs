@@ -49,4 +49,30 @@ public class InventoryObject {
         if (other.amount <= 0) return null;
         else return other;
     }
+
+    public InventoryObject Clone () {
+
+        InventoryObject clone = new InventoryObject();
+
+        clone.isTexture = this.isTexture;
+        clone.typeId = this.typeId;
+        clone.stackable = this.stackable;
+        clone.maxStackSize = this.maxStackSize;
+
+        clone.amount = this.amount;
+        clone.percent = this.percent;
+
+        return clone;
+    }
+
+    public InventoryObject TakeFrom (InventoryObject other, int amountToTake) {
+
+        if (amountToTake > other.amount) amountToTake = other.amount;
+
+        amount += amountToTake;
+        other.amount -= amountToTake;
+
+        if (other.amount <= 0) return null;
+        else return other;
+    }
 }
