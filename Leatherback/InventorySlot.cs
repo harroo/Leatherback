@@ -43,14 +43,19 @@ public class InventorySlot :
         objectDisplay = new Mesh();
         GameObject objectDisplayObject = new GameObject("Object Display");
         objectDisplayObject.transform.SetParent(transform);
-        objectDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        objectDisplayObject.transform.localScale = new Vector3(16, 16, 16);
+        objectDisplayObject.transform.Translate(Vector3.back * 1);
+        objectDisplayObject.transform.Rotate(new Vector3(-16, 45, -16));
+        objectDisplayObject.layer = LayerMask.NameToLayer("UI");
         objectDisplayObject.AddComponent<MeshFilter>().mesh = objectDisplay;
         objectDisplayObject.AddComponent<MeshRenderer>().material =
             InventoryPrefix.instance.objectDisplayMaterial;
+        ObjectDisplay = objectDisplayObject;
 
         GameObject amountDisplayObject = new GameObject("Amount Display");
         amountDisplayObject.transform.SetParent(transform);
         amountDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        amountDisplayObject.transform.Translate(Vector3.back * 2);
         amountDisplay = amountDisplayObject.AddComponent<Text>();
         amountDisplay.font = InventoryPrefix.instance.font;
         amountDisplay.color = InventoryPrefix.instance.fontColor;
@@ -68,7 +73,7 @@ public class InventorySlot :
         percentTransform.sizeDelta = new Vector2(manager.inventory.slotSize.x, 2);
     }
 
-    public virtual Action<InventorySlot> onSlotClick => null;
+    public virtual Action<InventorySlot, bool> onSlotClick => null;
 
     public void OnPointerClick (PointerEventData e) {
 
@@ -76,7 +81,7 @@ public class InventorySlot :
         // if (OcularityPrefix.instance.clickSound != "")
         //     ReverbAudioManager.Play(OcularityPrefix.instance.clickSound);
 
-        if (onSlotClick != null) onSlotClick(this);
+        if (onSlotClick != null) onSlotClick(this, e.button == PointerEventData.InputButton.Left);
         else manager.OnSlotClicked(this, e.button == PointerEventData.InputButton.Left);
     }
     public void OnPointerEnter (PointerEventData e) {
@@ -93,6 +98,8 @@ public class InventorySlot :
         displayImage.sprite = idleImage;
         displayImage.color = idleColor;
     }
+
+    public GameObject ObjectDisplay;
 
     private RawImage textureDisplay;
     private Mesh objectDisplay;

@@ -29,8 +29,8 @@ public class InventorySelector : MonoBehaviour {
         this.manager = manager;
 
         _rectTransform = GetComponent<RectTransform>();
-        canvas = FindObjectOfType<Canvas>();
-        // canvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
+        // canvas = FindObjectOfType<Canvas>();
+        canvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
         transform.SetParent(canvas.transform);
         transform.localScale = new Vector3(1, 1, 1);
 
@@ -45,7 +45,10 @@ public class InventorySelector : MonoBehaviour {
         objectDisplay = new Mesh();
         GameObject objectDisplayObject = new GameObject("Object Display");
         objectDisplayObject.transform.SetParent(transform);
-        objectDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        objectDisplayObject.transform.localScale = new Vector3(16, 16, 16);
+        objectDisplayObject.transform.Translate(Vector3.back * 2);
+        objectDisplayObject.transform.Rotate(new Vector3(-16, 45, -16));
+        objectDisplayObject.layer = LayerMask.NameToLayer("UI");
         objectDisplayObject.AddComponent<MeshFilter>().mesh = objectDisplay;
         objectDisplayObject.AddComponent<MeshRenderer>().material =
             InventoryPrefix.instance.objectDisplayMaterial;
@@ -53,6 +56,7 @@ public class InventorySelector : MonoBehaviour {
         GameObject amountDisplayObject = new GameObject("Amount Display");
         amountDisplayObject.transform.SetParent(transform);
         amountDisplayObject.transform.localScale = new Vector3(1, 1, 1);
+        amountDisplayObject.transform.Translate(Vector3.back * 3);
         amountDisplay = amountDisplayObject.AddComponent<Text>();
         amountDisplay.font = InventoryPrefix.instance.font;
         amountDisplay.color = InventoryPrefix.instance.fontColor;

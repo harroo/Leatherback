@@ -13,7 +13,7 @@ public class ExampleInventory : InventoryManager {
         //size of slots
         slotSize = new Vector2(32, 32),
         //demensions of inventory grid
-        gridSize = new Vector2(5, 4),
+        gridSize = new Vector2(6, 4),
 
         //slot texture display demensiosn
         textureSize = new Vector2(30, 30),
@@ -26,11 +26,11 @@ public class ExampleInventory : InventoryManager {
         //slot map
         slots = new char[] {
 
-            'S','S','S','S','S',
-            'S','S','S','S','S',
-            'S','S','S','S','S',
-            ' ',' ',' ',' ',' ',
-            'H','H','H','H','H',
+            ' ','S','S','S','S','S',
+            'T','S','S','S','S','S',
+            'T','S','S','S','S','S',
+            ' ',' ',' ',' ',' ',' ',
+            ' ','H','H','H','H','H',
         },
     };
 
@@ -38,6 +38,7 @@ public class ExampleInventory : InventoryManager {
     public override void SetSlotTypes () {
 
         AddSlot('H', typeof(ExampleSlot));
+        AddSlot('T', typeof(SpinningExampleSlot));
     }
 
     //for item textures
