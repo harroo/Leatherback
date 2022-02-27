@@ -12,6 +12,14 @@ It's recommended that you put it under a folder named "Plugins" or "Dependencies
 - 2: Then write and add your "InventoryManager" Script to an Object in the Canvas, this will be the Parent of the Inventory UI. See the Information section for more on this.
 - 3: Setup the Canvas. To do this you should create a second Camera that is Orthographic and is used only for an "Inventory Canvas", which the Canvas *must* be named for Leatherback to find it.
 
+It's recommended that you set up the Game-Objects like so:
+
+![scrot0](https://raw.githubusercontent.com/harroo/Leatherback/main/Images/image1.png)
+![scrot1](https://raw.githubusercontent.com/harroo/Leatherback/main/Images/image2.png)
+![scrot2](https://raw.githubusercontent.com/harroo/Leatherback/main/Images/image3.png)
+![scrot3](https://raw.githubusercontent.com/harroo/Leatherback/main/Images/image4.png)
+
+
 ## Information
 You can see the [Examples/](https://github.com/harroo/Leatherback/tree/main/Examples) for some ideas on how exactly to use this Kit.
 
