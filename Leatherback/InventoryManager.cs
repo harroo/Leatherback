@@ -73,15 +73,83 @@ public class InventoryManager : MonoBehaviour {
             slots.Add((InventorySlot)behaviour);
         }
 
-        foreach (var slot in slots) {
+        GameObject selectorObject = new GameObject("Selector Bob");
+        selectorObject.AddComponent<InventorySelector>().Initialize(this);
 
-            slot.ClearDisplay();
-        }
+        Render();
     }
+
+    private InventorySelector selector => InventorySelector.instance;
 
     public void OnSlotClicked (InventorySlot slot, bool leftClicked) {
 
-        Debug.Log("debug test, slot clicked in slot manager");
+        //if slot is empty and selector is empty
+        if (slot.isEmpty && selector.isEmpty) return;
+            //return
+
+        //if slot is empty and selector is full
+        if (slot.isEmpty && selector.isFull) {
+            //mv selector into slot
+            slot.data = selector.data;
+            selector.data = null;
+            //return
+            Render(); return;
+        }
+
+        //if slot is full and selector is empty
+        if (slot.isFull && selector.isEmpty) {
+            //mv slot to selector
+            selector.data = slot.data;
+            slot.data = null;
+            //return
+            Render(); return;
+        }
+
+        //if slot is full and selector is full
+        if (slot.isFull && selector.isFull) {
+            //if they can merge
+            if (slot.CanMerge(selector.data)) {
+                //merge
+                selector.data = slot.Merge(selector.data);
+                //return
+                Render(); return;
+
+            } else { //if they cant merge
+                //swap
+                InventoryObject cache = slot.data;
+                slot.data = selector.data;
+                selector.data = cache;
+                //return
+                Render(); return;
+            }
+        }
+    }
+
+    public void Render () {
+
+        foreach (var slot in slots)
+            slot.Render();
+
+        InventorySelector.Render();
+    }
+
+    public void Add (InventoryObject iobj) {
+
+        foreach (var slot in slots) {
+
+            if (iobj == null) break;
+
+            if (slot.isEmpty) {
+
+                slot.data = iobj; iobj = null;
+
+            } else if (slot.CanMerge(iobj)) iobj = slot.Merge(iobj);
+        }
+
+        if (iobj != null)
+            Debug.Log("Object did not completely fit!");
+
+        Render();
     }
 }
 

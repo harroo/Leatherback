@@ -39,4 +39,7 @@ public class ExampleInventory : InventoryManager {
 
         AddSlot('H', typeof(ExampleSlot));
     }
+
+    //for item textures
+    public Texture2D swordTexture;
 }
