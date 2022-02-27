@@ -10,6 +10,7 @@ It's recommended that you put it under a folder named "Plugins" or "Dependencies
 ### Next
 - 1: Add `InventoryPrefix` to a Game-Object, this is where you can configure the way the UI looks.
 - 2: Then write and add your "InventoryManager" Script to an Object in the Canvas, this will be the Parent of the Inventory UI. See the Information section for more on this.
+- 3: Setup the Canvas. To do this you should create a second Camera that is Orthographic and is used only for an "Inventory Canvas", which the Canvas *must* be named for Leatherback to find it.
 
 ## Information
 You can see the [Examples/](https://github.com/harroo/Leatherback/tree/main/Examples) for some ideas on how exactly to use this Kit.
@@ -17,6 +18,26 @@ You can see the [Examples/](https://github.com/harroo/Leatherback/tree/main/Exam
 ## Documentation
 ### To Enable sounds:
 Simple open `Leatherback/InventorySlot.cs` uncomment the the indicated lines.
+### InventoryManager
+```cs
+// Called when a slot is clicked.
+public virtual void OnSlotClicked ( InventorySlot slot , bool leftClicked ) { }
+
+// You can use it like such:
+public override void OnSlotClicked ( InventorySlot slot , bool leftClicked ) {
+
+    /* .. Your logic here .. */
+
+}
+
+// If it is left unchanged than it will act as usual.
+```
+See [Examples/ExampleInventory.cs](https://github.com/harroo/Leatherback/tree/main/Examples) for more in this.
+### InventorySlot
+```cs
+
+```
+
 
 ---
 

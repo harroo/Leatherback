@@ -81,7 +81,7 @@ public class InventoryManager : MonoBehaviour {
 
     private InventorySelector selector => InventorySelector.instance;
 
-    public void OnSlotClicked (InventorySlot slot, bool leftClicked) {
+    public virtual void OnSlotClicked (InventorySlot slot, bool leftClicked) {
 
         //if slot is empty and selector is empty
         if (slot.isEmpty && selector.isEmpty) return;

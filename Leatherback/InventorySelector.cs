@@ -30,6 +30,7 @@ public class InventorySelector : MonoBehaviour {
 
         _rectTransform = GetComponent<RectTransform>();
         canvas = FindObjectOfType<Canvas>();
+        // canvas = GameObject.Find("Inventory Canvas").GetComponent<Canvas>();
         transform.SetParent(canvas.transform);
         transform.localScale = new Vector3(1, 1, 1);
 
@@ -93,7 +94,7 @@ public class InventorySelector : MonoBehaviour {
             textureDisplay.texture = data.GetTexture();
             textureDisplay.color = Color.white;
 
-        } else objectDisplay = data.GetMesh();
+        } else data.AsignMesh(objectDisplay);
 
         amountDisplay.text = data.amount == 0 ? "" : data.amount.ToString();
 

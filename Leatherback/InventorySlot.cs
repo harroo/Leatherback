@@ -118,7 +118,7 @@ public class InventorySlot :
             textureDisplay.texture = data.GetTexture();
             textureDisplay.color = Color.white;
 
-        } else objectDisplay = data.GetMesh();
+        } else data.AsignMesh(objectDisplay);
 
         amountDisplay.text = data.amount == 0 ? "" : data.amount.ToString();
 

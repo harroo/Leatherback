@@ -26,10 +26,7 @@ public class InventoryObject {
         return texture;
     }
 
-    public virtual Mesh GetMesh () {
-
-        return new Mesh();
-    }
+    public virtual void AsignMesh (Mesh mesh) { }
 
     //should return true if the object can receive more into itself of the other
     public virtual bool CanMerge (InventoryObject other) {
