@@ -125,38 +125,48 @@ public class InventoryManager : MonoBehaviour {
     private void RightClickSlot (InventorySlot slot) {
 
         //for now redirect to leftclick cos this aint worken
-        LeftClickSlot(slot);
+        // LeftClickSlot(slot);
 
-        // if (slot.isEmpty && selector.isFull) {
-        //
-        //     slot.data = selector.Clone(); slot.data.amount = 0;
-        //     selector.data = slot.TakeFrom(selector.data, 1);
-        //     Render(); return;
-        // }
-        //
-        // if (slot.isFull && selector.isEmpty) {
-        //
-        //     selector.data = slot.Clone(); selector.data.amount = 0;
-        //     slot.data = selector.TakeFrom(slot.data, slot.data.amount / 2);
-        //     Render(); return;
-        // }
-        //
-        // if (slot.isFull && selector.isFull) {
-        //
-        //     if (slot.CanMerge(selector.data)) {
-        //
-        //         selector.data = slot.TakeFrom(selector.data, 1);
-        //         Render(); return;
-        //
-        //     } else {
-        //
-        //         InventoryObject cache = slot.data;
-        //         slot.data = selector.data;
-        //         selector.data = cache;
-        //         Render(); return;
-        //     }
-        // }
+        if (slot.isEmpty && selector.isFull) {
+
+            // slot.data = selector.Clone(); slot.data.amount = 0;
+
+            slot.data = (InventoryObject)Activator.CreateInstance(selector.data.GetType());
+            slot.data.amount = 0;
+
+            selector.data = slot.TakeFrom(selector.data, 1);
+            Render(); return;
+        }
+
+        if (slot.isFull && selector.isEmpty) {
+
+            // selector.data = slot.Clone(); selector.data.amount = 0;
+
+            selector.data = (InventoryObject)Activator.CreateInstance(slot.data.GetType());
+            selector.data.amount = 0;
+
+            slot.data = selector.TakeFrom(slot.data, slot.data.amount / 2);
+            Render(); return;
+        }
+
+        if (slot.isFull && selector.isFull) {
+
+            if (slot.CanMerge(selector.data)) {
+
+                selector.data = slot.TakeFrom(selector.data, 1);
+                Render(); return;
+
+            } else {
+
+                InventoryObject cache = slot.data;
+                slot.data = selector.data;
+                selector.data = cache;
+                Render(); return;
+            }
+        }
     }
+
+    private T CastObject<T> (object input) { return (T)input; }
 
     public void Render () {
 

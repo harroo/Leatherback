@@ -1,7 +1,9 @@
 
+using System;
+
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class Sword : InventoryObject {
 
     public Sword () {
@@ -14,11 +16,11 @@ public class Sword : InventoryObject {
 
     public override Texture2D GetTexture () {
 
-        return Object.FindObjectOfType<ExampleInventory>().swordTexture;
+        return GameObject.FindObjectOfType<ExampleInventory>().swordTexture;
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class Box : InventoryObject {
 
     public Box () {
