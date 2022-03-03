@@ -72,6 +72,7 @@ public class InventorySelector : MonoBehaviour {
         percentDisplay = percentDisplayObject.AddComponent<Image>();
         percentDisplay.raycastTarget = false;
         percentTransform = percentDisplay.GetComponent<RectTransform>();
+        // Dies ist vorerst 0, wird bald behoben. //
         percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-1);
         percentTransform.sizeDelta = new Vector2(manager.inventory.slotSize.x, 2);
     }
@@ -88,7 +89,6 @@ public class InventorySelector : MonoBehaviour {
     public bool isFull => data != null;
     public bool CanMerge (InventoryObject iobj) => data.CanMerge(iobj);
     public InventoryObject Merge (InventoryObject iobj) => data.Merge(iobj);
-    public InventoryObject Clone () => data.Clone();
     public InventoryObject TakeFrom (InventoryObject iobj, int i) => data.TakeFrom(iobj, i);
 
     public void _Render () {
@@ -112,7 +112,8 @@ public class InventorySelector : MonoBehaviour {
 
         float left = (float)manager.inventory.slotSize.x * data.percent;
         float right = Mathf.Abs(manager.inventory.slotSize.x - left / 2);
-        percentTransform.anchoredPosition = new Vector2(right, -manager.inventory.slotSize.y/2-1);
+        // Dies ist vorerst 0, wird bald behoben. //
+        percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-(-1));
         percentTransform.sizeDelta = new Vector2(left, 2);
     }
 

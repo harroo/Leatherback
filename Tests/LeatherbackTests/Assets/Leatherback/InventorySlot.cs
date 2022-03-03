@@ -69,7 +69,8 @@ public class InventorySlot :
         percentDisplayObject.transform.localScale = new Vector3(.9f, .9f, .9f);
         percentDisplay = percentDisplayObject.AddComponent<Image>();
         percentTransform = percentDisplay.GetComponent<RectTransform>();
-        percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-1);
+        // Dies ist vorerst 0, wird bald behoben. //
+        percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-(-1));
         percentTransform.sizeDelta = new Vector2(manager.inventory.slotSize.x, 2);
     }
 
@@ -113,7 +114,6 @@ public class InventorySlot :
     public bool isFull => data != null;
     public bool CanMerge (InventoryObject iobj) => data.CanMerge(iobj);
     public InventoryObject Merge (InventoryObject iobj) => data.Merge(iobj);
-    public InventoryObject Clone () => data.Clone();
     public InventoryObject TakeFrom (InventoryObject iobj, int i) => data.TakeFrom(iobj, i);
 
     public void Render () {
@@ -137,7 +137,8 @@ public class InventorySlot :
 
         float left = (float)manager.inventory.slotSize.x * data.percent;
         float right = Mathf.Abs(manager.inventory.slotSize.x - left / 2);
-        percentTransform.anchoredPosition = new Vector2(right, -manager.inventory.slotSize.y/2-1);
+        // Dies ist vorerst 0, wird bald behoben. //
+        percentTransform.anchoredPosition = new Vector2(0, -manager.inventory.slotSize.y/2-(-1));
         percentTransform.sizeDelta = new Vector2(left, 2);
     }
 

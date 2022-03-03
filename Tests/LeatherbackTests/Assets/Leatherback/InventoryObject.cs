@@ -50,19 +50,16 @@ public class InventoryObject {
         else return other;
     }
 
-    public InventoryObject Clone () {
+    // Copies values from this instance to the "target" instance, with optional amount ignorance.
+    public void CopyValuesTo (InventoryObject targetObject, bool copyAmount = false) {
 
-        InventoryObject clone = new InventoryObject();
+        targetObject.isTexture = this.isTexture;
+        targetObject.typeId = this.typeId;
+        targetObject.stackable = this.stackable;
+        targetObject.maxStackSize = this.maxStackSize;
 
-        clone.isTexture = this.isTexture;
-        clone.typeId = this.typeId;
-        clone.stackable = this.stackable;
-        clone.maxStackSize = this.maxStackSize;
-
-        clone.amount = this.amount;
-        clone.percent = this.percent;
-
-        return clone;
+        if (copyAmount) targetObject.amount = this.amount;
+        targetObject.percent = this.percent;
     }
 
     public InventoryObject TakeFrom (InventoryObject other, int amountToTake) {

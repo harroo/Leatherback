@@ -132,6 +132,7 @@ public class InventoryManager : MonoBehaviour {
             // slot.data = selector.Clone(); slot.data.amount = 0;
 
             slot.data = (InventoryObject)Activator.CreateInstance(selector.data.GetType());
+            // selector.data.CopyValuesTo(slot.data);
             slot.data.amount = 0;
 
             selector.data = slot.TakeFrom(selector.data, 1);
@@ -143,6 +144,7 @@ public class InventoryManager : MonoBehaviour {
             // selector.data = slot.Clone(); selector.data.amount = 0;
 
             selector.data = (InventoryObject)Activator.CreateInstance(slot.data.GetType());
+            // selector.data.CopyValuesTo(slot.data);
             selector.data.amount = 0;
 
             slot.data = selector.TakeFrom(slot.data, slot.data.amount / 2);

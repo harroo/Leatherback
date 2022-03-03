@@ -12,6 +12,8 @@ public class Sword : InventoryObject {
         typeId = 0;
         stackable = true;
         maxStackSize = InventoryPrefix.instance.defaultStackSize;
+
+        percent = 0.5f;
     }
 
     public override Texture2D GetTexture () {
