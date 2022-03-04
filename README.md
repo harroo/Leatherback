@@ -45,6 +45,133 @@ See [Examples/ExampleInventory.cs](https://github.com/harroo/Leatherback/tree/ma
 ```cs
 
 ```
+### InventoryObject
+It is advised that you derive an `BaseItem`, or an `ItemBase` etcetera, and set the values you wish all items to have in it, then derive from it.
+
+Like so:
+```cs
+// Base Item Class.
+public class ItemBase : InventoryObject {
+
+    // Extra member attributes.
+    public int myNumber ;
+    public string myName ;
+
+    /* .. And so on and so forth. .. */
+
+        // Constructor to set the InventoryObject attributes
+        // that you'd like to use as defaults for your items.
+        public ItemBase ( ) {
+
+            // See the InventoryObject.cs file to see all base attributes.
+
+            isTexture = false ;
+            typeId = 0 ;
+            stackable = true ;
+
+            maxStackSize = 43 ;
+
+        }
+
+    // Also your base class can, but doesn't need to, define some important functions ..
+            // These virtual methods are as unnecessary as they are optional.
+
+        // Should return true if the Object's are compatible and there's room.
+        public override bool CanMerge ( InventoryObject other ) { .. }
+
+        // Should merge the objects unto each other.
+        public override InventoryObject Merge ( InventoryObject other ) { .. }
+
+        // Should revoke the specified amount from the given Object and award them to this one.
+        public override InventoryObject TakeFrom ( InventoryObject other , int amountToTake ) { .. }
+
+        // Notes that these do not and should not work when MetaData is of issue.
+        // For Example; If the Item is say some sort of chest then there should be no stacking.
+        // In which case CanMerge ( .. ) ; should return false.
+
+        // These functions are predefined in the base InventoryObject, and do not need
+        // to be overridden unless you've good reason to do as such.
+
+
+    // **However** !
+    // This method *should* be overridden by your BaseItem or ItemBase or what-have-you.
+            // Overriding of this virtual method is quite necessary.
+
+        // Copies values from this instance to the "target" instance, with optional amount ignorance.
+        public override void CopyValuesTo ( InventoryObject targetObject , bool copyAmount = false ) {
+
+            targetObject.isTexture = this.isTexture;
+            targetObject.typeId = this.typeId;
+            targetObject.stackable = this.stackable;
+            targetObject.maxStackSize = this.maxStackSize;
+
+            if (copyAmount) targetObject.amount = this.amount;
+            targetObject.percent = this.percent;
+
+            /* And now your implemented attributes. */
+
+            targetObject.myNumber = this.myNumber ;
+            targetObject.myName = this.myName ;
+
+        }
+
+}
+
+// Example of other Classes.
+public class Sword : ItemBase {
+
+    // Optional overruling Constructor to set custom
+    // Defaults for this Item. Also changing some from the ItemBase.
+    public Sword ( ) {
+
+        isTexture = true ;
+        typeId = 1 ;
+        stackable = false ;
+
+        myNumber = 0;
+        myName = "Mein Schwert" ;
+
+    }
+
+    // This class *can* override some of the virtual methods, but only if necessary.
+    // I can't, off the top of my head, think of a situation where this would be appropriate.
+
+}
+```
+Furthermore there's the `MetaDataBuffer` that can be loaded with *any* data types.
+This is useful for things like Backpacks, carry-able chests and such.
+
+Here's how to use it:
+```cs
+// Set it ..
+myItem.SetMetaData ( myBuffer ) ;
+
+// Get it ..
+byte [ ] myBuffer = myItem.GetMetaData ( ) ;
+
+// Append to it ..
+myItem.metaData.Append ( "string value" ) ; // String value.
+myItem.metaData.Append ( 137 ) ; // Integer value.
+myItem.metaData.Append ( 137.0f ) ; // Floating-Point value.
+
+myItem.metaData.AppendT ( Anything ) ; // Any object, as in System.Object. So *anything*!
+
+
+// Extract Information from it.
+
+string myText = myItem.metaData.GetString ( ) ; // String value.
+int myNumber = myItem.metaData.GetInt32 ( ) ; // Integer value.
+float myFloat = myItem.metaData.GetSingle ( ) ; // Floating-Point value.
+
+// Any object, as in System.Object. So *anything*!
+MyClass anything = ( MyClass ) myItem.metaData.GetObject ( ) ;
+
+
+```
+**Note.**
+`MetaDataBuffer`s MUST be deconstructed in the exact same order that they were constructed. Else the information may become obfuscated.
+
+You can Reset the counter with `MetaDataBuffer.Reset ( ) ;`. This will allow you to start the deconstruction process once again.
 
 
 ---

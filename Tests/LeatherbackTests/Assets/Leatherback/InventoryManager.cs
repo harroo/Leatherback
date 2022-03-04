@@ -168,8 +168,6 @@ public class InventoryManager : MonoBehaviour {
         }
     }
 
-    private T CastObject<T> (object input) { return (T)input; }
-
     public void Render () {
 
         foreach (var slot in slots)

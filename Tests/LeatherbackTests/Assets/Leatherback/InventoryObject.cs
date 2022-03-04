@@ -15,17 +15,19 @@ public class InventoryObject {
     public int amount;
     public float percent;
 
-    public virtual Texture2D GetTexture () {
+    public Leatherback.MetaDataBuffer metaData;
 
-        var texture = new Texture2D(2, 2);
-        texture.SetPixel(1, 1, Color.black);
-        texture.SetPixel(1, 2, Color.magenta);
-        texture.SetPixel(2, 1, Color.magenta);
-        texture.SetPixel(2, 2, Color.black);
-        texture.Apply();
-        return texture;
+    public void SetMetaData (byte[] newMetaData) {
+
+        metaData = new Leatherback.MetaDataBuffer(newMetaData);
     }
 
+    public byte[] GetMetaData () => metaData.ToArray();
+
+    //should return what the item looks like
+    public virtual Texture2D GetTexture () { return Texture2D.blackTexture; }
+
+    //should return what the item looks like if 3d
     public virtual void AsignMesh (Mesh mesh) { }
 
     //should return true if the object can receive more into itself of the other
@@ -50,19 +52,8 @@ public class InventoryObject {
         else return other;
     }
 
-    // Copies values from this instance to the "target" instance, with optional amount ignorance.
-    public void CopyValuesTo (InventoryObject targetObject, bool copyAmount = false) {
-
-        targetObject.isTexture = this.isTexture;
-        targetObject.typeId = this.typeId;
-        targetObject.stackable = this.stackable;
-        targetObject.maxStackSize = this.maxStackSize;
-
-        if (copyAmount) targetObject.amount = this.amount;
-        targetObject.percent = this.percent;
-    }
-
-    public InventoryObject TakeFrom (InventoryObject other, int amountToTake) {
+    //should take an amount from 1 object to this 1
+    public virtual InventoryObject TakeFrom (InventoryObject other, int amountToTake) {
 
         if (amountToTake > other.amount) amountToTake = other.amount;
 
@@ -71,5 +62,17 @@ public class InventoryObject {
 
         if (other.amount <= 0) return null;
         else return other;
+    }
+
+    // Copies values from this instance to the "target" instance, with optional amount ignorance.
+    public virtual void CopyValuesTo (InventoryObject targetObject, bool copyAmount = false) {
+
+        targetObject.isTexture = this.isTexture;
+        targetObject.typeId = this.typeId;
+        targetObject.stackable = this.stackable;
+        targetObject.maxStackSize = this.maxStackSize;
+
+        if (copyAmount) targetObject.amount = this.amount;
+        targetObject.percent = this.percent;
     }
 }
