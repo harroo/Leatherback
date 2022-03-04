@@ -108,6 +108,8 @@ public class ItemBase : InventoryObject {
             if (copyAmount) targetObject.amount = this.amount;
             targetObject.percent = this.percent;
 
+            targetObject.metaData = this.metaData;
+
             /* And now your implemented attributes. */
 
             targetObject.myNumber = this.myNumber ;
