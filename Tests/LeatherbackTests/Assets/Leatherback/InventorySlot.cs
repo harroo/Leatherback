@@ -79,8 +79,8 @@ public class InventorySlot :
     public void OnPointerClick (PointerEventData e) {
 
         // Uncomment these lines to enable sounds, Reverb is required.
-        // if (OcularityPrefix.instance.clickSound != "")
-        //     ReverbAudioManager.Play(OcularityPrefix.instance.clickSound);
+        // if (InventoryPrefix.instance.clickSound != "")
+        //     ReverbAudioManager.Play(InventoryPrefix.instance.clickSound);
 
         if (onSlotClick != null) onSlotClick(this, e.button == PointerEventData.InputButton.Left);
         else manager.OnSlotClicked(this, e.button == PointerEventData.InputButton.Left);
@@ -91,8 +91,8 @@ public class InventorySlot :
         displayImage.color = highlightedColor;
 
         // Uncomment these lines to enable sounds, Reverb is required.
-        // if (OcularityPrefix.instance.highlightSound != "")
-        //     ReverbAudioManager.Play(OcularityPrefix.instance.highlightSound);
+        // if (InventoryPrefix.instance.highlightSound != "")
+        //     ReverbAudioManager.Play(InventoryPrefix.instance.highlightSound);
     }
     public void OnPointerExit (PointerEventData e) {
 

@@ -74,5 +74,7 @@ public class InventoryObject {
 
         if (copyAmount) targetObject.amount = this.amount;
         targetObject.percent = this.percent;
+
+        targetObject.metaData = this.metaData;
     }
 }
